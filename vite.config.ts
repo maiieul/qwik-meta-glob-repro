@@ -5,12 +5,15 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(() => {
   return {
+    // build: {
+    //   rollupOptions: {
+    //     output: process.env.npm_lifecycle_event === "build.preview" ? {
+    //       chunkFileNames:
+    //       '[name]-[hash].mjs',
+    //     }: undefined,
+    //   },
+    // },
     plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
-    dev: {
-      headers: {
-        "Cache-Control": "public, max-age=0",
-      },
-    },
     preview: {
       headers: {
         "Cache-Control": "public, max-age=600",
