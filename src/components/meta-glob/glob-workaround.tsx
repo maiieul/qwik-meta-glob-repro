@@ -4,10 +4,11 @@ import {
   useSignal,
   useTask$,
 } from "@builder.io/qwik";
+import { isDev } from "@builder.io/qwik/build";
 
 const metaGlobComponents: any = import.meta.glob("/src/components/*", {
   import: "default",
-  eager: false,
+  eager: isDev ? false : true,
 });
 
 export default component$<{ name: string }>(({ name }) => {
@@ -15,7 +16,9 @@ export default component$<{ name: string }>(({ name }) => {
   const componentPath = `/src/components/${name}.tsx`;
 
   useTask$(async () => {
-    MetaGlobComponent.value = await metaGlobComponents[componentPath]();
+    MetaGlobComponent.value = isDev
+      ? await metaGlobComponents[componentPath]()
+      : metaGlobComponents[componentPath];
   });
 
   return <>{MetaGlobComponent.value && <MetaGlobComponent.value />}</>;
